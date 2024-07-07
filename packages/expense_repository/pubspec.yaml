@@ -16,7 +16,7 @@ dependencies:
   user_repository:
     path: ../user_repository
 
-  
+  awesome_notifications: ^0.9.3+1
 
 firebase_auth:
 # cloud_firestore:

@@ -1,25 +1,25 @@
 import 'dart:math';
 
 import 'package:expense_repository/expense_repository.dart';
-import 'package:expense_tracker_project/blocs/authentication_bloc/authentication_bloc.dart';
 
 import 'package:expense_tracker_project/blocs/category_bloc/category_bloc.dart';
 
 import 'package:expense_tracker_project/blocs/expense_bloc/expense_bloc.dart';
-import 'package:expense_tracker_project/blocs/local_auth_bloc/local_auth_bloc.dart';
+
+import 'package:expense_tracker_project/screens/add_bills/views/bill_screen.dart';
 
 import 'package:expense_tracker_project/screens/add_expens/views/add_expense.dart';
-import 'package:expense_tracker_project/screens/home/views/bill_screen.dart';
+
 import 'package:expense_tracker_project/screens/home/views/main_screen.dart';
 
-import 'package:expense_tracker_project/screens/stats/stats.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:user_repository/user_repository.dart';
 
+import '../../../blocs/bills_bloc/bills_bloc.dart';
 import '../../../blocs/my_user_bloc/my_user_bloc.dart';
+import '../../add_bills/views/add_bills.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(width: 40), // The dummy child for spacing
               IconButton(
-                icon: const Icon(CupertinoIcons.graph_circle_fill),
+                icon: const Icon(Icons.receipt_long),
                 color: _currentIndex == 1 ? selectedColor : unselectedColor,
                 onPressed: () {
                   setState(() {
@@ -101,24 +101,45 @@ class _HomeScreenState extends State<HomeScreen> {
   FloatingActionButton _buildFloatingActionButton() {
     return FloatingActionButton(
       onPressed: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute<Expense>(
-            builder: (context) => MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) => CategoryBloc(FirebaseExpenseReport()),
+        _currentIndex == 0
+            ? await Navigator.push(
+                context,
+                MaterialPageRoute<Expense>(
+                  builder: (context) => MultiBlocProvider(
+                    providers: [
+                      BlocProvider(
+                        create: (context) =>
+                            CategoryBloc(FirebaseExpenseReport()),
+                      ),
+                      BlocProvider(
+                        create: (context) =>
+                            ExpenseBloc(FirebaseExpenseReport()),
+                      ),
+                    ],
+                    child: AddExpense(),
+                  ),
                 ),
-                BlocProvider(
-                  create: (context) => ExpenseBloc(FirebaseExpenseReport()),
-                ),
-              ],
-              child: AddExpense(),
-            ),
-          ),
-        ).then((_) {
-          context.read<ExpenseBloc>().add(LoadExpenses());
-        });
+              ).then((_) {
+                context.read<ExpenseBloc>().add(LoadExpenses());
+              })
+            : await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (context) =>
+                                  CategoryBloc(FirebaseExpenseReport()),
+                            ),
+                            BlocProvider(
+                              create: (context) =>
+                                  BillsBloc(FirebaseExpenseReport()),
+                            ),
+                          ],
+                          child: const AddBills(),
+                        ))).then((_) {
+                context.read<BillsBloc>().add(LoadBills());
+              });
       },
       shape: const CircleBorder(),
       child: Container(

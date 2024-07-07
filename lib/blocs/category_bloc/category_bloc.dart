@@ -14,6 +14,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc(this.expenseRepository) : super(CategoryInitial()) {
     on<LoadCategory>(_onLoadCategory);
     on<CreateCategory>(_onCreateCategory);
+    on<DeleteCategory>(_onDeleteCategory);
   }
 
   Future<void> _onLoadCategory(
@@ -39,6 +40,16 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     } catch (e) {
       print('Error adding category in bloc: $e');
       emit(CategoryError('Failed to add category'));
+    }
+  }
+
+  FutureOr<void> _onDeleteCategory(
+      DeleteCategory event, Emitter<CategoryState> emit) async {
+    try {
+      await expenseRepository.deleteCategory(event.categoryId);
+      add(LoadCategory());
+    } catch (e) {
+      emit(CategoryError(e.toString()));
     }
   }
 }

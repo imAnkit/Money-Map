@@ -1,6 +1,7 @@
 import 'package:expense_tracker_project/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:expense_tracker_project/blocs/local_auth_bloc/local_auth_bloc.dart';
-import 'package:expense_tracker_project/screens/home/views/login_security.dart';
+
+import 'package:expense_tracker_project/screens/option_screens/views/login_security.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -204,7 +205,10 @@ class OptionsScreen extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => BlocProvider(
-                                            create: (context) => LocalAuthBloc(userRepository: context.read<AuthenticationBloc>().userRepository),
+                                            create: (context) => LocalAuthBloc(
+                                                userRepository: context
+                                                    .read<AuthenticationBloc>()
+                                                    .userRepository),
                                             child:
                                                 const LoginAndSecurityScreen(),
                                           )));

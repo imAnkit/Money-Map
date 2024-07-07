@@ -17,6 +17,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   ExpenseBloc(this.expenseRepository) : super(ExpenseInitial()) {
     on<LoadExpenses>(_onLoadExpenses);
     on<CreateExpense>(_onCreateExpense);
+    on<EditExpense>(_onEditExpense);
     on<ExpenseDeleted>(_onDeleteExpense);
   }
 
@@ -39,8 +40,8 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
         final income = expenses.fold<double>(0,
             (sum, expense) => sum + (expense.isExpense ? 0 : expense.amount));
 
-        final List<Expense> incomeList =
-            await expenseRepository.getExpense(currentUser);
+        // final List<Expense> incomeList =
+        //     await expenseRepository.getExpense(currentUser);
 
         emit(ExpenseLoaded(expenses, expense, income));
       } else {
@@ -70,6 +71,16 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     } catch (e) {
       print('Error deleting expense in bloc: $e'); // Debugging line
       emit(ExpenseError('Failed to delete expense'));
+    }
+  }
+
+  FutureOr<void> _onEditExpense(
+      EditExpense event, Emitter<ExpenseState> emit) async {
+    try {
+      await expenseRepository.editExpense(event.expense);
+      add(LoadExpenses());
+    } catch (e) {
+      emit(ExpenseError(e.toString()));
     }
   }
 }

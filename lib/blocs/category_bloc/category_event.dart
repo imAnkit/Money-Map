@@ -15,3 +15,10 @@ class CreateCategory extends CategoryEvent {
 }
 
 class LoadCategory extends CategoryEvent {}
+
+class DeleteCategory extends CategoryEvent {
+  final String categoryId;
+  const DeleteCategory(this.categoryId);
+  @override
+  List<Object> get props => [categoryId];
+}

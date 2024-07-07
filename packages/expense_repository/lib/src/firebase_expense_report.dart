@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:expense_repository/src/entities/bills_entity.dart';
+import 'package:expense_repository/src/models/bill.dart';
 import 'package:user_repository/user_repository.dart';
 
 import '../expense_repository.dart';
@@ -9,14 +11,11 @@ class FirebaseExpenseReport implements ExpenseRepository {
   final categoryCollection =
       FirebaseFirestore.instance.collection('categories');
   final expenseCollection = FirebaseFirestore.instance.collection('expenses');
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final billsCollection = FirebaseFirestore.instance.collection('bills');
 
   @override
   Future<void> createCategory(Category category) async {
     try {
-      // await categoryCollection
-      //     .doc(category.categoryId)
-      //     .set(category.toEntity().toDocument());
       await categoryCollection.add(category.toEntity().toDocument());
     } catch (e) {
       log(e.toString());
@@ -29,10 +28,7 @@ class FirebaseExpenseReport implements ExpenseRepository {
     try {
       final snapshot =
           await categoryCollection.where('userId', isEqualTo: user.id).get();
-      // return await categoryCollection.get().then((value) => value.docs
-      //     .map(
-      //         (e) => Category.fromEntity(CategoryEntity.fromDocument(e.data()),user))
-      //     .toList());
+
       return snapshot.docs
           .map((doc) => Category.fromEntity(
               CategoryEntity.fromDocument(doc.data()), user))
@@ -43,45 +39,15 @@ class FirebaseExpenseReport implements ExpenseRepository {
     }
   }
 
-  // @override
-  // Future<void> createExpense(Expense expense) async {
-  //   try {
-  //     String expenseId = expense.expenseId;
-  //     expense = expense.copyWith(expenseId: expenseId);
-  //     await expenseCollection
-  //         .doc(expenseId)
-  //         .set(expense.toEntity().toDocument());
-  //   } catch (e) {
-  //     log(e.toString());
-  //     rethrow;
-  //   }
-  // }
-
-  // @override
-  // Future<List<Expense>> getExpense() async {
-  //   try {
-  //     return await expenseCollection.get().then((value) => value.docs
-  //         .map((e) => Expense.fromEntity(ExpenseEntity.fromDocument(e.data())))
-  //         .toList());
-  //   } catch (e) {
-  //     log(e.toString());
-  //     rethrow;
-  //   }
-  // }
-
   @override
-  // Future<List<Expense>> getExpense() async {
-  //   try {
-  //     final snapshot = await _firestore.collection('expenses').get();
-  //     print('Fetched ${snapshot.docs.length} expenses'); // Debugging line
-  //     return snapshot.docs
-  //         .map((doc) => Expense.fromEntity(ExpenseEntity.fromDocument(doc.data() as Map<String, dynamic>, doc.id)))
-  //         .toList();
-  //   } catch (e) {
-  //     print('Error fetching expenses: $e'); // Debugging line
-  //     rethrow;
-  //   }
-  // }
+  Future<void> deleteCategory(String categoryId) async {
+    try {
+      await categoryCollection.doc(categoryId).delete();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 
   @override
   Future<List<Expense>> getExpense(MyUser user) async {
@@ -100,7 +66,16 @@ class FirebaseExpenseReport implements ExpenseRepository {
       print(
           'Expense added: ${expense.toEntity().toDocument()}'); // Debugging line
     } catch (e) {
-      print('Error adding expense: $e'); // Debugging line
+      log(e.toString()); // Debugging line
+      rethrow;
+    }
+  }
+   @override
+  Future<void> editExpense(Expense expense) async {
+    try {
+      await expenseCollection.doc(expense.expenseId).set(expense.toEntity().toDocument());
+    } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }
@@ -109,6 +84,56 @@ class FirebaseExpenseReport implements ExpenseRepository {
   Future<void> deleteExpense(String expenseId) async {
     try {
       await expenseCollection.doc(expenseId).delete();
-    } catch (e) {}
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Bills>> getBillsAll(MyUser user) async {
+    try {
+      final snapshot =
+          await billsCollection.where('userId', isEqualTo: user.id).get();
+      return snapshot.docs
+          .map((doc) => Bills.fromEntity(
+              BillsEntity.fromDocument(doc.data(), user, doc.id), user))
+          .toList();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> createBills(Bills bill) async {
+    try {
+      await billsCollection.add(bill.toEntity().toDocument());
+      print('bill added: ${bill.toEntity().toDocument()}');
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> editBill(Bills bill) async {
+    try {
+      await billsCollection.doc(bill.billId).set(bill.toEntity().toDocument());
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteBill(String billId) async {
+    try {
+      await billsCollection.doc(billId).delete();
+      print('bill deleted: ${billId}');
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
   }
 }

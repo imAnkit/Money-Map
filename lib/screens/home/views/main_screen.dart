@@ -3,11 +3,10 @@ import 'dart:math';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:expense_tracker_project/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:expense_tracker_project/blocs/expense_bloc/expense_bloc.dart';
-import 'package:expense_tracker_project/blocs/local_auth_bloc/local_auth_bloc.dart';
 
 import 'package:expense_tracker_project/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:expense_tracker_project/screens/add_expens/views/edit_expense.dart';
 
-import 'package:expense_tracker_project/screens/home/views/options_screen.dart';
 import 'package:expense_tracker_project/screens/stats/stats.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -17,16 +16,18 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:pinput/pinput.dart';
+
 import 'package:user_repository/user_repository.dart';
 
+import '../../../blocs/category_bloc/category_bloc.dart';
 import '../../../blocs/my_user_bloc/my_user_bloc.dart';
 import '../../../blocs/update_user_info_bloc/update_user_info_bloc.dart';
+import '../../option_screens/views/options_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  MyUser? user;
+  final MyUser? user;
 
-  MainScreen(this.user, {super.key});
+  const MainScreen(this.user, {super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -42,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final expenseBloc = BlocProvider.of<ExpenseBloc>(context);
     return MultiBlocListener(
       listeners: [
         BlocListener<UpdateUserInfoBloc, UpdateUserInfoState>(
@@ -427,7 +429,8 @@ class _MainScreenState extends State<MainScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>const StatsScreeen()));
+                                    builder: (context) =>
+                                        const StatsScreeen()));
                           },
                           child: Text(
                             'See all',
@@ -452,6 +455,153 @@ class _MainScreenState extends State<MainScreen> {
                           child: GestureDetector(
                             onTap: () {
                               Slidable.of(context)?.close();
+                              showModalBottomSheet(
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.all(20),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: IconButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            MultiBlocProvider(
+                                                              providers: [
+                                                                BlocProvider(
+                                                                  create: (context) =>
+                                                                      CategoryBloc(
+                                                                          FirebaseExpenseReport()),
+                                                                ),
+                                                                BlocProvider(
+                                                                  create: (context) =>
+                                                                      ExpenseBloc(
+                                                                          FirebaseExpenseReport()),
+                                                                ),
+                                                              ],
+                                                              child: EditexpensesScreen(
+                                                                  expense:
+                                                                      expense),
+                                                            ))).then((_) {
+                                                  expenseBloc
+                                                      .add(LoadExpenses());
+                                                });
+                                              },
+                                              icon: Icon(
+                                                Icons.edit,
+                                                color: Colors.grey.shade500,
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            children: [
+                                              Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors
+                                                            .grey.shade200,
+                                                        shape: BoxShape.circle),
+                                                  ),
+                                                  Image.asset(
+                                                    'assets/${expense.category.icon}.png',
+                                                    scale: 2,
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                expense.name,
+                                                style: TextStyle(fontSize: 24),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    color: Color(expense
+                                                        .category.color)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 2.0,
+                                                      horizontal: 7),
+                                                  child: Text(
+                                                    expense.category.name,
+                                                    style: TextStyle(
+                                                        fontSize: 10,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors
+                                                            .grey.shade700),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '₹' + expense.amount.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    'Due On',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors
+                                                            .grey.shade600),
+                                                  ),
+                                                  Text(DateFormat('dd/MM/yyyy')
+                                                      .format(expense.date)),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          expense.note.toString().isNotEmpty
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  child: Text(
+                                                    expense.note.toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors
+                                                            .grey.shade600),
+                                                  ),
+                                                )
+                                              : SizedBox(
+                                                  height: 20,
+                                                  child: Text(''),
+                                                )
+                                        ],
+                                      ),
+                                    );
+                                  });
                             },
                             child: Slidable(
                               key: Key(expense.expenseId),
@@ -488,28 +638,55 @@ class _MainScreenState extends State<MainScreen> {
                                                 width: 50,
                                                 height: 50,
                                                 decoration: BoxDecoration(
-                                                    color: Color(
-                                                        expense.category.color),
+                                                    color: Colors.grey.shade200,
                                                     shape: BoxShape.circle),
                                               ),
                                               Image.asset(
                                                 'assets/${expense.category.icon}.png',
                                                 scale: 2,
-                                                color: Colors.white,
                                               )
                                             ],
                                           ),
                                           const SizedBox(
                                             width: 12,
                                           ),
-                                          Text(
-                                            expense.category.name,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onBackground),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                expense.name,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onBackground),
+                                              ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    color: Color(expense
+                                                        .category.color)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 2.0,
+                                                      horizontal: 7),
+                                                  child: Text(
+                                                    expense.category.name,
+                                                    style: TextStyle(
+                                                        fontSize: 9,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors
+                                                            .grey.shade700),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ],
                                       ),

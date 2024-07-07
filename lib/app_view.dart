@@ -1,11 +1,15 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:expense_tracker_project/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:expense_tracker_project/blocs/bills_bloc/bills_bloc.dart';
 import 'package:expense_tracker_project/blocs/category_bloc/category_bloc.dart';
 import 'package:expense_tracker_project/blocs/expense_bloc/expense_bloc.dart';
 import 'package:expense_tracker_project/blocs/local_auth_bloc/local_auth_bloc.dart';
 import 'package:expense_tracker_project/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:expense_tracker_project/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:expense_tracker_project/blocs/update_user_info_bloc/update_user_info_bloc.dart';
+import 'package:expense_tracker_project/notification_controller.dart';
+import 'package:expense_tracker_project/screens/add_bills/views/bill_screen.dart';
 
 import 'package:expense_tracker_project/screens/authentication/welcome_screen.dart';
 import 'package:expense_tracker_project/screens/home/views/home_screen.dart';
@@ -16,8 +20,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:user_repository/user_repository.dart';
 
-class AppView extends StatelessWidget {
+class AppView extends StatefulWidget {
   const AppView({super.key});
+
+  @override
+  State<AppView> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<AppView> {
+ @override
+  void initState() {
+    AwesomeNotifications().setListeners(
+        onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+        onNotificationCreatedMethod:
+            NotificationController.onNotificationCreateMethod,
+        onNotificationDisplayedMethod:
+            NotificationController.onNotificationDisplayMethod,
+        onDismissActionReceivedMethod:
+            NotificationController.onDismissActionReceivedMethod);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +54,10 @@ class AppView extends StatelessWidget {
               secondary: Color(0xFFE064F7),
               tertiary: Color(0xFFFF8D6C),
               outline: Colors.grey)),
+      routes: {
+        '/billScreen': (context) =>
+            BillScreen(), // Define the route for the second screen
+      },
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state.status == AuthenticationStatus.authenticated) {
@@ -49,6 +75,10 @@ class AppView extends StatelessWidget {
                         print('Navigate to Home Screen');
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (_) => MultiBlocProvider(providers: [
+                                  BlocProvider(
+                                      create: (context) => BillsBloc(context
+                                          .read<ExpenseBloc>()
+                                          .expenseRepository)),
                                   BlocProvider(
                                     create: (context) => SignInBloc(
                                       userRepository: context
@@ -94,6 +124,9 @@ class AppView extends StatelessWidget {
                   } else {
                     return MultiBlocProvider(
                       providers: [
+                        BlocProvider(
+                            create: (context) => BillsBloc(
+                                context.read<ExpenseBloc>().expenseRepository)),
                         BlocProvider(
                           create: (context) => SignInBloc(
                             userRepository: context
