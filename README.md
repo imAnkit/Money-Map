@@ -2,7 +2,7 @@
 
 Money Map is a cross-platform Expense and Bill Tracker application built using Flutter, Firebase, and BLoC and Clean architecture. It offers users a comprehensive solution for managing their finances with features like secure authentication, profile management, and real-time data synchronization.
 
-### Screenshots
+### Screenshots 📸 
 
 <table width="100%">
   <tr>
@@ -60,7 +60,7 @@ Money Map is a cross-platform Expense and Bill Tracker application built using F
 
 
 
-## Features
+## Features 📊 
 
 - User Authentication: Secure sign-up and login functionality using Firebase Authentication. Users can authenticate via email and password with real-time data synchronization.
 - Profile Management: Users can upload and manage profile photos, stored securely in Firebase Cloud Storage.
@@ -69,7 +69,7 @@ Money Map is a cross-platform Expense and Bill Tracker application built using F
 - Notifications: Integrated custom notifications to remind users about bills and track expenses effectively.
 - Graphs and Visualization: Intuitive graphs and charts to visually represent expenses and income, helping users better manage their finances.
 
-## Tech Stack
+## Tech Stack 🛠️
 
 - **Flutter**: Framework for building natively compiled applications for mobile, web, and desktop from a single codebase.
 - **Firebase**: Backend-as-a-Service for user authentication, cloud storage, and real-time database synchronization.
@@ -77,9 +77,9 @@ Money Map is a cross-platform Expense and Bill Tracker application built using F
 - **Clean Architecture**: Design pattern for organizing code in a scalable and maintainable way.
 - **Shared Preferences**: For storing simple app state and configuration data locally.
 
-## Installation
+## Installation 🚀 
 
-1. Clone the repository:
+1. **Clone the Repository** 
 
-```bash
- git clone https://github.com/yourusername/money-map.git
+   ```bash
+   git clone https://github.com/yourusername/money-map.git
