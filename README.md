@@ -7,53 +7,56 @@ Money Map is a cross-platform Expense and Bill Tracker application built using F
 <table width="100%">
   <tr>
     <td align="center" width="33%">
-      <h4>Welcome Screen</h4>
-      <img src="https://github.com/user-attachments/assets/515534d5-5593-4815-bfa0-1683bb9aabb1" width="190" height="400" style="border-radius: 10px;">
+      <h4>Welcome Screen                 </h4>
+      <img src="https://github.com/user-attachments/assets/d2bc8337-0841-4082-b889-6ef65dfaa118" width="190" height="400" style="border-radius: 10px;">
     </td>
     <td align="center" width="33%">
-      <h4>Signup Screen</h4>
-      <img src="https://github.com/user-attachments/assets/68d0b0d3-9787-4a62-9791-a4476d5c175e" width="190" height="400" style="border-radius: 10px;">
+      <h4>Signup Screen                  </h4>
+      <img src="https://github.com/user-attachments/assets/1ca09ba8-69f8-4e58-89bf-f4d3236f96ea" width="190" height="400" style="border-radius: 10px;">
     </td>
     <td align="center" width="33%">
-      <h4>Signin Screen</h4>
-      <img src="https://github.com/user-attachments/assets/25277737-b260-4df8-a55e-f2beaee03b58" width="190" height="400" style="border-radius: 10px;">
+      <h4>Signin Screen                  </h4>
+      <img src="https://github.com/user-attachments/assets/c28169d4-21d6-4069-8762-f59e5124ca11" width="190" height="400" style="border-radius: 10px;">
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <h4>Expense Overview Screen</h4>
-      <img src="https://github.com/user-attachments/assets/d75f2803-5b9f-471e-a31a-f12e2407962e" width="190" height="400" style="border-radius: 10px;">
+      <h4>Expense Overview Screen        </h4>
+      <img src="https://github.com/user-attachments/assets/bc8fc219-3743-4627-a86b-c5c997bab494" width="190" height="400" style="border-radius: 10px;">
     </td>
     <td align="center" width="33%">
       <h4>Detailed Income/Expense Screen</h4>
-      <img src="https://github.com/user-attachments/assets/8ebf2d63-6998-492a-b67b-fd3ee7c528a1" width="190" height="400" style="border-radius: 10px;">
+      <img src="https://github.com/user-attachments/assets/4c504513-53f8-43d4-aecb-122fa30cc48b" width="190" height="400" style="border-radius: 10px;">
     </td>
     <td align="center" width="33%">
-      <h4>Add Expense</h4>
-      <img src="https://github.com/user-attachments/assets/4353a4c0-c40e-4ab3-8b5a-b731df40ea7d" width="190" height="400" style="border-radius: 10px;">
+      <h4>Add Expense                   </h4>
+      <img src="https://github.com/user-attachments/assets/ed46f83b-d354-4a60-878f-2df15982f174" width="190" height="400" style="border-radius: 10px;">
     </td>
   </tr>
   <tr>
     <td align="center" width="33%">
-      <h4>Bills Screen</h4>
-      <img src="https://github.com/user-attachments/assets/d5795f79-b536-4fd6-806d-44660c63f861" width="190" height="400" style="border-radius: 10px;">
+      <h4>Bills Screen                  </h4>
+      <img src="https://github.com/user-attachments/assets/46d6ae27-a327-4750-a362-874ffb23f01d" width="190" height="400" style="border-radius: 10px;">
     </td>
     <td align="center" width="33%">
-      <h4>Add Bill</h4>
-      <img src="https://github.com/user-attachments/assets/2b2e5966-0946-4dbf-905f-5cb5a30737b9" width="190" height="400" style="border-radius: 10px;">
+      <h4>Add Bill                      </h4>
+      <img src="https://github.com/user-attachments/assets/088be27a-66f3-4a53-b999-a09950841f00" width="190" height="400" style="border-radius: 10px;">
     </td>
     <td align="center" width="33%">
-      <h4>Edit Bills/Expenses</h4>
-      <img src="https://github.com/user-attachments/assets/54001215-46e3-4c32-965b-9e7ecf2863eb" width="190" height="400" style="border-radius: 10px;">
+      <h4>Edit Bills/Expenses           </h4>
+      <img src="https://github.com/user-attachments/assets/0f6aa53c-7996-47da-820c-2d49ea51a7aa" width="190" height="400" style="border-radius: 10px;">
     </td>
   </tr>
   <tr>
     <td align="center" width="100%" colspan="3">
-      <h4>Settings Screen</h4>
-      <img src="https://github.com/user-attachments/assets/8ddb6312-fde0-4ab5-b44d-619c3ff5314c" width="190" height="400" style="border-radius: 10px;">
+      <h4>Settings Screen               </h4>
+      <img src="https://github.com/user-attachments/assets/e59c157f-20ec-43de-8430-64d7c577b7dc" width="190" height="400" style="border-radius: 10px;">
     </td>
   </tr>
 </table>
+
+
+
 
 
 
