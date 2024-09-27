@@ -47,28 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCnGBJQ4HWubmz790-WLkoc1ESbt1d-qjU',
-    appId: '1:158423296854:web:218055bc18dbf4ce7384f7',
-    messagingSenderId: '158423296854',
-    projectId: 'expense-tracker-app-6cc99',
-    authDomain: 'expense-tracker-app-6cc99.firebaseapp.com',
-    storageBucket: 'expense-tracker-app-6cc99.appspot.com',
+    
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    authDomain: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA3glMjhPdThKKR7jWJkT-vTjkkgQf58uc',
-    appId: '1:158423296854:android:6349c9ac099154a17384f7',
-    messagingSenderId: '158423296854',
-    projectId: 'expense-tracker-app-6cc99',
-    storageBucket: 'expense-tracker-app-6cc99.appspot.com',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDzDdN_g22aqJCuEK7xuCWUXzqlXarp6yA',
-    appId: '1:158423296854:ios:b67b0200d57b59bc7384f7',
-    messagingSenderId: '158423296854',
-    projectId: 'expense-tracker-app-6cc99',
-    storageBucket: 'expense-tracker-app-6cc99.appspot.com',
-    iosBundleId: 'com.example.expenseTrackerProject',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
+    iosBundleId: '',
   );
 }
